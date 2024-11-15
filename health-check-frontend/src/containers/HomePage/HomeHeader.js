@@ -5,15 +5,29 @@ import { last } from "lodash";
 import { lang } from "moment/moment";
 import { useParams, useNavigate, useLocation } from "react-router";
 import Dropdown from "react-bootstrap/Dropdown";
-
+import { Navigate } from "react-router-dom";
+import HomeSidebar from "./HomeSidebar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStethoscope,
+  faVideo,
+  faNotesMedical,
+  faVial,
+  faBrain,
+  faTooth,
+} from "@fortawesome/free-solid-svg-icons";
 class HomeHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirectTo: null,
+    };
+  }
   changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);
   };
   returnToHome = () => {
-    if (this.props.history) {
-      this.props.history.push(`/home`);
-    }
+    this.setState({ redirectTo: "/home" });
   };
   handleLogin = () => {
     if (this.props.history) {
@@ -21,7 +35,7 @@ class HomeHeader extends Component {
     }
   };
   handleSearchComponent = (type) => {
-    this.props.history.push(`/search/${type}`);
+    this.setState({ redirectTo: `/search/${type}` });
   };
   handleLogout = () => {
     this.props.processLogout();
@@ -37,13 +51,16 @@ class HomeHeader extends Component {
     let language = this.props.language;
     let { isLoggedIn, userInfo } = this.props;
     console.log("check userInfo", userInfo);
-
+    if (this.state.redirectTo) {
+      return <Navigate to={this.state.redirectTo} />;
+    }
     return (
       <React.Fragment>
         <div className="home-header-container">
           <div className="home-header-content">
+            <HomeSidebar />
             <div className="left-content">
-              <Dropdown className="d-inline mx-2" autoClose="inside">
+              {/* <Dropdown className="d-inline mx-2" autoClose="inside">
                 <Dropdown.Toggle id="dropdown-autoclose-inside" variant="none">
                   <i className="fa fa-bars"> </i>
                 </Dropdown.Toggle>
@@ -88,7 +105,7 @@ class HomeHeader extends Component {
                     </div>
                   </Dropdown.Item>
                 </Dropdown.Menu>
-              </Dropdown>
+              </Dropdown> */}
 
               <div className="header-logo" onClick={this.returnToHome}></div>
             </div>
@@ -98,12 +115,7 @@ class HomeHeader extends Component {
                 onClick={() => this.handleSearchComponent("Specialty")}
               >
                 <div>
-                  <b>
-                    <FormattedMessage id="home-header.speciality" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="home-header.search-doctor" />
+                  <b>Chuyên khoa nổi bật</b>
                 </div>
               </div>
               <div
@@ -111,12 +123,7 @@ class HomeHeader extends Component {
                 onClick={() => this.handleSearchComponent("Clinic")}
               >
                 <div>
-                  <b>
-                    <FormattedMessage id="home-header.health-facility" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="home-header.select-room" />
+                  <b>Cơ sở y tế</b>
                 </div>
               </div>
               <div
@@ -124,12 +131,7 @@ class HomeHeader extends Component {
                 onClick={() => this.handleSearchComponent("Doctor")}
               >
                 <div>
-                  <b>
-                    <FormattedMessage id="home-header.doctor" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="home-header.select-doctor" />
+                  <b>Bác sĩ nổi bật</b>
                 </div>
               </div>
               <div
@@ -137,21 +139,11 @@ class HomeHeader extends Component {
                 onClick={() => this.handleSearchComponent("All")}
               >
                 <div>
-                  <b>
-                    <FormattedMessage id="home-header.fee" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="home-header.check-health" />
+                  <b>Gói khám</b>
                 </div>
               </div>
             </div>
             <div className="right-content">
-              <div className="support" onClick={this.rule}>
-                <i className="fa fa-question"></i>{" "}
-                <FormattedMessage id="home-header.support" />
-              </div>
-
               {isLoggedIn && isLoggedIn === true ? (
                 <div className="profile">
                   <Dropdown className="d-inline mx-2" autoClose="inside">
@@ -196,9 +188,7 @@ class HomeHeader extends Component {
                   // onClick={processLogout}
                   title="Log out"
                 >
-                  <span className="login-label">
-                    <FormattedMessage id="home-header.login" />
-                  </span>
+                  <span className="login-label">Đăng nhập</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -248,53 +238,52 @@ class HomeHeader extends Component {
             </div>
             <div className="content-down">
               <div className="options">
+                {/* Option 1 */}
                 <div className="option-child">
-                  <div className="icon-child"></div>
-                  <div className="text-child">
-                    {/* {language === LANGUAGES.VI
-                      ? "Khám chuyên khoa"
-                      : "Specialty Examination"} */}
+                  <div className="icon-circle">
+                    <FontAwesomeIcon icon={faStethoscope} className="icon" />
                   </div>
+                  <div className="text-child">Khám chuyên khoa</div>
                 </div>
+
+                {/* Option 2 */}
                 <div className="option-child">
-                  <div className="icon-child"></div>
-                  <div className="text-child">
-                    {/* {language === LANGUAGES.VI
-                      ? "Khám từ xa"
-                      : "Remote Consultation"} */}
+                  <div className="icon-circle">
+                    <FontAwesomeIcon icon={faVideo} className="icon" />
                   </div>
+                  <div className="text-child">Khám từ xa</div>
                 </div>
+
+                {/* Option 3 */}
                 <div className="option-child">
-                  <div className="icon-child"></div>
-                  <div className="text-child">
-                    {/* {language === LANGUAGES.VI
-                      ? "Khám tổng quát"
-                      : "General Check-up"} */}
+                  <div className="icon-circle">
+                    <FontAwesomeIcon icon={faNotesMedical} className="icon" />
                   </div>
+                  <div className="text-child">Khám tổng quát</div>
                 </div>
+
+                {/* Option 4 */}
                 <div className="option-child">
-                  <div className="icon-child"></div>
-                  <div className="text-child">
-                    {/* {language === LANGUAGES.VI
-                      ? "Xét nghiệm y học"
-                      : "Medical Testing"} */}
+                  <div className="icon-circle">
+                    <FontAwesomeIcon icon={faVial} className="icon" />
                   </div>
+                  <div className="text-child">Xét nghiệm y học</div>
                 </div>
+
+                {/* Option 5 */}
                 <div className="option-child">
-                  <div className="icon-child"></div>
-                  <div className="text-child">
-                    {/* {language === LANGUAGES.VI
-                      ? "Sức khỏe tinh thần"
-                      : "Mental Health"} */}
+                  <div className="icon-circle">
+                    <FontAwesomeIcon icon={faBrain} className="icon" />
                   </div>
+                  <div className="text-child">Sức khỏe tinh thần</div>
                 </div>
+
+                {/* Option 6 */}
                 <div className="option-child">
-                  <div className="icon-child"></div>
-                  <div className="text-child">
-                    {/* {language === LANGUAGES.VI
-                      ? "Khám nha khoa"
-                      : "Dental Examination"} */}
+                  <div className="icon-circle">
+                    <FontAwesomeIcon icon={faTooth} className="icon" />
                   </div>
+                  <div className="text-child">Khám nha khoa</div>
                 </div>
               </div>
             </div>

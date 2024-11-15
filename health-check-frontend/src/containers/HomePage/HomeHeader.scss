@@ -204,38 +204,56 @@
     justify-content: center;
     align-items: end;
     padding-bottom: 10px;
-    .options {
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      .option-child {
-        //padding: 10px;
-        width: 120px;
-        text-align: center;
-        margin: 0 auto;
 
-        .icon-child {
-          background: white;
-          width: 40px;
-          height: 40px;
-          margin: 0 auto;
-          padding: 10px;
-          text-align: center;
-          border-radius: 50%;
-          i: {
-            color: #49bce2;
-            font-size: 20px;
+    .options {
+      display: flex;
+      justify-content: space-evenly; /* Canh đều khoảng cách giữa các mục */
+      align-items: center; /* Căn giữa theo chiều dọc */
+      flex-wrap: wrap; /* Cho phép xuống hàng nếu không đủ chỗ */
+      gap: 20px; /* Khoảng cách giữa các mục */
+      width: 80%; /* Căn chỉnh chiều rộng tổng thể */
+      margin: 0 auto; /* Canh giữa toàn bộ nội dung */
+    }
+
+    .option-child {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .icon-circle {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        transition: all 0.3s ease;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background-color: #74c0fc;
+          transform: scale(1.1);
+          box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+
+          .icon {
+            color: white;
           }
         }
-      }
-      .text-child {
-        font-size: 17px;
-        font-weight: 700;
-        &:hover {
-          color: #49bce2;
+
+        .icon {
+          color: #74c0fc;
+          font-size: 30px;
+          transition: color 0.3s ease;
         }
-        cursor: pointer;
+      }
+
+      .text-child {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
       }
     }
   }

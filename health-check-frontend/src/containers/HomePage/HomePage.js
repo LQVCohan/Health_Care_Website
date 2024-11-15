@@ -24,15 +24,13 @@ class HomePage extends Component {
       // prevArrow: <prevArrow />,
     };
     return (
-      <>
-        <div>
-          <HomeHeader isShowBanner={true} />
-          {/* <OutStandingDoctor settings={settings} />
-          <Specialty settings={settings} />
-          <MedicalFacility settings={settings} /> */}
-          <HomeFooter />
-        </div>
-      </>
+      <React.Fragment>
+        <HomeHeader isShowBanner={true} />
+        <OutStandingDoctor settings={settings} />
+        <Specialty settings={settings} />
+        <MedicalFacility settings={settings} />
+        <HomeFooter />
+      </React.Fragment>
     );
   }
 }

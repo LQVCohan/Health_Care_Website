@@ -16,7 +16,9 @@ import ProfilePatient from "./Patient/Profile/ProfilePatient";
 import AppointmentPatient from "./Patient/Profile/AppointmentPatient";
 import Rule from "./HomePage/Section/Rule";
 import ForgotPassword from "./Patient/Profile/ForgotPassword";
-
+import Error404 from "../components/Error/Error404";
+import "font-awesome/css/font-awesome.min.css";
+import ErrorBoundary from "../components/Error/ErrorBoundary";
 class App extends Component {
   handlePersistorState = () => {
     // Handle persistor state logic here, if needed
@@ -28,7 +30,7 @@ class App extends Component {
 
   render() {
     return (
-      <Fragment>
+      <ErrorBoundary>
         <Router>
           <div className="main-container">
             <div className="content-container">
@@ -64,6 +66,9 @@ class App extends Component {
                   element={<AppointmentPatient />}
                 />
                 <Route path={"/rule/"} element={<Rule />} />
+                <Route exact path="/404" component={Error404} />
+                {/* Nếu không tìm thấy route nào, điều hướng tới trang lỗi 404 */}
+                <Route path="*" component={Error404} />
               </Routes>
             </div>
 
@@ -82,7 +87,7 @@ class App extends Component {
             /> */}
           </div>
         </Router>
-      </Fragment>
+      </ErrorBoundary>
     );
   }
 }
